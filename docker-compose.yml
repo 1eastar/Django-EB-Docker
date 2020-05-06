@@ -9,9 +9,9 @@ services:
     volumes:
       - django_sample_db_dev:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=sampledb
-      - POSTGRES_USER=sampleuser
-      - POSTGRES_PASSWORD=samplesecret
+      - POSTGRES_DB=dockertest
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234asdf1234
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
   django:
@@ -20,12 +20,12 @@ services:
       dockerfile: ./compose/django/Dockerfile-dev
     environment:
       - DJANGO_DEBUG=True
-      - DJANGO_DB_HOST=db
+      - DJANGO_DB_HOST=database-2.c0sc7cso2evp.ap-northeast-2.rds.amazonaws.com
       - DJANGO_DB_PORT=5432
-      - DJANGO_DB_NAME=sampledb
-      - DJANGO_DB_USERNAME=sampleuser
-      - DJANGO_DB_PASSWORD=samplesecret
-      - DJANGO_SECRET_KEY=dev_secret_key
+      - DJANGO_DB_NAME=dockertest
+      - DJANGO_DB_USERNAME=postgres
+      - DJANGO_DB_PASSWORD=1234asdf1234
+      - DJANGO_SECRET_KEY=7ngkdjajhzi2oi+6izsv+!hg5lhdhzb0(d8d(qv11$i=)14n*)
     ports:
       - "8000:8000"
     command:

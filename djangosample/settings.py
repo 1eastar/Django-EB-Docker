@@ -24,8 +24,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '7ngkdjajhzi2oi+6izsv+!hg5lhdhz
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+# DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,11 +77,16 @@ WSGI_APPLICATION = 'djangosample.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DJANGO_DB_NAME', 'djangosample'),
-        'USER': os.environ.get('DJANGO_DB_USERNAME', 'sampleuser'),
-        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'samplesecret'),
-        'HOST': os.environ.get('DJANGO_DB_HOST', 'localhost'),
+        'NAME': os.environ.get('DJANGO_DB_NAME', 'dockertest'),
+        'USER': os.environ.get('DJANGO_DB_USERNAME', 'postgres'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', '1234asdf1234'),
+        'HOST': os.environ.get('DJANGO_DB_HOST', 'database-2.c0sc7cso2evp.ap-northeast-2.rds.amazonaws.com'),
         'PORT': os.environ.get('DJANGO_DB_PORT', '5432'),
+        # 'NAME': 'postgres',
+        # 'USER': 'testname',
+        # 'PASSWORD': '1234asdf1234',
+        # 'HOST': '127.0.0.1',
+        # 'PORT': '5432',
     }
 }
 
