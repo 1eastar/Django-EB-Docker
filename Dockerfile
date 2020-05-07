@@ -13,6 +13,16 @@ RUN    pip install -r requirements.txt
 ADD    ./djangosample   /app/djangosample/
 ADD    ./manage.py      /app/
 
-EXPOSE 8000
+WORKDIR     /home/ubuntu
 
-CMD ["python", "manage.py", "runserver", "0:8000"]
+RUN         cp -f /home/ubuntu/.config/nginx.conf           /etc/nginx
+RUN         cp -f /home/ubuntu/.config/djangobackend      /etc/nginx/sites-available
+
+RUN         rm -f /etc/nginx/sites-enabled/*
+RUN         ln -fs /etc/nginx/sites-available/djangobackend                  /etc/nginx/sites-enabled
+
+RUN         cp -f /home/ubuntu/.config/supervisor_app.conf  /etc/supervisor/conf.d
+
+EXPOSE      8000
+
+CMD         supervisord -n
