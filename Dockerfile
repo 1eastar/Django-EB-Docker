@@ -13,4 +13,6 @@ RUN    pip install -r requirements.txt
 ADD    ./djangosample   /app/djangosample/
 ADD    ./manage.py      /app/
 
+EXPOSE 8000
+
 CMD ["python", "manage.py", "runserver", "0:8000"]
