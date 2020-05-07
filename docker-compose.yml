@@ -27,7 +27,7 @@ services:
       - DJANGO_DB_PASSWORD=1234asdf1234
       - DJANGO_SECRET_KEY=7ngkdjajhzi2oi+6izsv+!hg5lhdhzb0(d8d(qv11$i=)14n*)
     ports:
-      - "8000:8000"
+      - "80:80"
     command:
       - bash
       - -c
