@@ -17,7 +17,7 @@ services:
   django:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile-dev
+      dockerfile: ./compose/django/Dockerfile
     environment:
       - DJANGO_DEBUG=True
       - DJANGO_DB_HOST=database-2.c0sc7cso2evp.ap-northeast-2.rds.amazonaws.com

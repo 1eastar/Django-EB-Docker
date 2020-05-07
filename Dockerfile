@@ -14,6 +14,10 @@ RUN    pip install -r requirements.txt
 ADD    ./djangosample   /app/djangosample/
 ADD    ./manage.py      /app/
 
+ENV         PROJECT_DIR              /home/ubuntu/django-sample-for-docker-compose
+
+COPY        .                       ${PROJECT_DIR}
+
 WORKDIR     /home/ubuntu/django-sample-for-docker-compose
 
 RUN         cp -f /home/ubuntu/django-sample-for-docker-compose/.config/nginx.conf           /etc/nginx
