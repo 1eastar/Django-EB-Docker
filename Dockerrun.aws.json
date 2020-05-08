@@ -1,0 +1,103 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "environment": [
+                {
+                    "name": "POSTGRES_DB",
+                    "value": "dockertest"
+                },
+                {
+                    "name": "POSTGRES_USER",
+                    "value": "postgres"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "1234asdf1234"
+                },
+                {
+                    "name": "POSTGRES_INITDB_ARGS",
+                    "value": "--encoding=UTF-8"
+                }
+            ],
+            "essential": true,
+            "image": "postgres",
+            "mountPoints": [
+                {
+                    "containerPath": "/var/lib/postgresql/data",
+                    "sourceVolume": "Django_Sample_Db_Dev"
+                }
+            ],
+            "name": "db",
+            "memory":128
+        },
+        {
+            "command": [
+                "bash",
+                "-c",
+                "python manage.py makemigrations\npython manage.py migrate\npython manage.py runserver\nsupervisord -n\n"
+            ],
+            "environment": [
+                {
+                    "name": "DJANGO_DEBUG",
+                    "value": "True"
+                },
+                {
+                    "name": "DJANGO_DB_HOST",
+                    "value": "database-2.c0sc7cso2evp.ap-northeast-2.rds.amazonaws.com"
+                },
+                {
+                    "name": "DJANGO_DB_PORT",
+                    "value": "5432"
+                },
+                {
+                    "name": "DJANGO_DB_NAME",
+                    "value": "dockertest"
+                },
+                {
+                    "name": "DJANGO_DB_USERNAME",
+                    "value": "postgres"
+                },
+                {
+                    "name": "DJANGO_DB_PASSWORD",
+                    "value": "1234asdf1234"
+                },
+                {
+                    "name": "DJANGO_SECRET_KEY",
+                    "value": "7ngkdjajhzi2oi+6izsv+!hg5lhdhzb0(d8d(qv11$i=)14n*)"
+                }
+            ],
+            "essential": true,
+            "mountPoints": [
+                {
+                    "containerPath": "/app/",
+                    "sourceVolume": "_"
+                }
+            ],
+            "name": "django",
+            "image": "aws_beanstalk/current-app",
+            "memory":128,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80
+                }
+            ]
+        }
+    ],
+    "family": "",
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "django_sample_db_dev"
+            },
+            "name": "Django_Sample_Db_Dev"
+        },
+        {
+            "host": {
+                "sourcePath": "./"
+            },
+            "name": "_"
+        }
+    ]
+}
