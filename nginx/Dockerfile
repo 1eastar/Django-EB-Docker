@@ -18,4 +18,11 @@ ENV         PROJECT_DIR              /home/ubuntu/django-sample-for-docker-compo
 
 COPY        .                       ${PROJECT_DIR}
 
+WORKDIR     /home/ubuntu/django-sample-for-docker-compose
+
+RUN         cp -f /home/ubuntu/django-sample-for-docker-compose/nginx/djangobackend      /etc/nginx/sites-available
+
+RUN         rm -f /etc/nginx/sites-enabled/*
+RUN         ln -fs /etc/nginx/sites-available/djangobackend                  /etc/nginx/sites-enabled
+
 EXPOSE      80

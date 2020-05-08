@@ -1,5 +1,5 @@
 {
-    "AWSEBDockerrunVersion": 2,
+    "AWSEBDockerrunVersion": "2",
     "containerDefinitions": [
         {
             "environment": [
@@ -22,20 +22,21 @@
             ],
             "essential": true,
             "image": "postgres",
+            "memory": 4,
             "mountPoints": [
                 {
                     "containerPath": "/var/lib/postgresql/data",
                     "sourceVolume": "Django_Sample_Db_Dev"
                 }
             ],
-            "name": "db",
-            "memory":128
+            "name": "db"
         },
         {
             "command": [
                 "bash",
                 "-c",
-                "python manage.py makemigrations\npython manage.py migrate\npython manage.py runserver\nsupervisord -n\n"
+                "python manage.py makemigrations\npython manage.py migrate\n",
+                "uwsgi --ini /home/ubuntu/django-sample-for-docker-compose/.config/djangobackend.ini"
             ],
             "environment": [
                 {
@@ -68,15 +69,44 @@
                 }
             ],
             "essential": true,
+            "memory": 4,
             "mountPoints": [
                 {
                     "containerPath": "/app/",
                     "sourceVolume": "_"
+                },
+                {
+                    "containerPath": "/var/log/uwsgi",
+                    "sourceVolume": "_Log"
                 }
             ],
             "name": "django",
-            "image": "aws_beanstalk/current-app",
-            "memory":128,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80
+                }
+            ]
+        },
+        {
+            "essential": true,
+            "image": "nginx:latest",
+            "memory": 4,
+            "mountPoints": [
+                {
+                    "containerPath": "/etc/nginx/nginx.conf",
+                    "sourceVolume": "_NginxNginx_Conf"
+                },
+                {
+                    "containerPath": "/app/",
+                    "sourceVolume": "_"
+                },
+                {
+                    "containerPath": "/var/log/nginx",
+                    "sourceVolume": "_Log"
+                }
+            ],
+            "name": "nginx",
             "portMappings": [
                 {
                     "containerPort": 80,
@@ -98,6 +128,18 @@
                 "sourcePath": "./"
             },
             "name": "_"
+        },
+        {
+            "host": {
+                "sourcePath": "./log"
+            },
+            "name": "_Log"
+        },
+        {
+            "host": {
+                "sourcePath": "./nginx/nginx.conf"
+            },
+            "name": "_NginxNginx_Conf"
         }
     ]
 }
