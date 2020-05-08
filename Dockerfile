@@ -28,6 +28,4 @@ RUN         ln -fs /etc/nginx/sites-available/djangobackend                  /et
 
 RUN         cp -f /home/ubuntu/django-sample-for-docker-compose/.config/supervisor_app.conf  /etc/supervisor/conf.d
 
-EXPOSE      80
-
-CMD         supervisord -n
+EXPOSE      80, 8000, 5432
