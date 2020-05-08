@@ -1,6 +1,6 @@
 
 server {
-    listen 80, 5432;
+    listen 80;
     server_name  *.elasticbeanstalk.com *.amazonaws.com localhost;
 
     location = /favicon.ico { access_log off; log_not_found off; }
